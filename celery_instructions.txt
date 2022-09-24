@@ -1,0 +1,44 @@
+STEP 1
+start basic django project
+(env) pip install celery 
+
+#install rabbitmq-server
+sudo apt-get install rabbitmq-server
+
+#enable server
+sudo systemctl enable rabbitmq-server
+
+STEP 2 (each time we have to do)
+#start rabbitmq-server on a terminal window
+sudo systemctl start rabbitmq-server
+
+#get status of running rabbitmq-server
+systemctl status rabbitmq-server 
+
+#to stop rabbitmq-server (try at the end) 
+sudo rabbitmqctl stop
+
+
+#Open another terminal with pyhton environment and the test_celery folder is the project folder where settings.py file exists
+celery -A test_celery worker -l info
+
+
+
+
+
+
+#to test celery shared tasks (but it doesn't contain right right now os ignore the following code)
+python manage.py shell
+
+from base.tasks import add
+add.delay(4,3)
+<AsyncResult: 0982345y2io3uy5u4jk234h5>
+
+#to delay the process of being executed after countdown
+add.apply_async((4,3), countdown=5)
+
+
+previous tasks are being runing in background even after i restarted.
+
+I think it will create the 100 users first and then 50 more.
+Maintaining queue of tasks
